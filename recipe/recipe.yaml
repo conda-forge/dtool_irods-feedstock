@@ -1,0 +1,45 @@
+schema_version: 1
+
+context:
+  name: dtool_irods
+  version: "0.10.1"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/dtool-irods/dtool-irods-${{ version }}.tar.gz
+  sha256: 58a2fa6efa0f18f64eb0f471e6bd6f3b73ddd146ded6b1cb29e7d7d7891e1099
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - pip
+    - python ${{ python_min }}.*
+    - setuptools
+  run:
+    - click
+    - dtoolcore >=3.17
+    - python >=${{ python_min }}
+
+tests:
+  - python:
+      imports:
+        - dtool_irods
+      pip_check: true
+      python_version: ${{ python_min }}
+
+about:
+  summary: Add iRODS support to dtool
+  license: MIT
+  license_file: LICENSE.rst
+  homepage: https://github.com/jic-dtool/dtool-irods
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
